@@ -1,5 +1,6 @@
 package io.marelso.marketmanagement.ui.onboarding
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ fun OnBoardingScreenHoisting(
     )
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun OnBoardingScreen(
     modifier: Modifier = Modifier,
@@ -91,7 +93,7 @@ private fun OnBoardingScreen(
             }
         }
     ) {
-        Box(modifier.padding(it), contentAlignment = Alignment.Center) {
+        Box(contentAlignment = Alignment.Center) {
             AppLocalImage(
                 modifier = modifier.fillMaxSize(),
                 painter = painterResource(id = R.drawable.onboarding)
