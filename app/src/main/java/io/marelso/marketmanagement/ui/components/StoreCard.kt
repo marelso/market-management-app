@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.marelso.market_management.domain.Store
+import io.marelso.marketmanagement.data.Store
 
 @Composable
 fun StoreCard(

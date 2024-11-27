@@ -36,10 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.marelso.marketmanagement.R
 
 @Composable
-fun SignInScreenHoisting(
-    viewModel: SignInViewModel,
-    onSignInSuccess: () -> Unit
-) {
+fun SignInScreenHoisting(viewModel: SignInViewModel) {
     val email by viewModel.email.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
     val canSubmit by viewModel.canSubmit.collectAsStateWithLifecycle()
@@ -51,15 +48,11 @@ fun SignInScreenHoisting(
             canSubmit = canSubmit,
             onEmailChange = viewModel::onEmailChange,
             onPasswordChange = viewModel::onPasswordChange,
-            onSignInClick = {
-                onSignInSuccess()
-            },
+            onSignInClick = viewModel::onSubmit,
             onForgotPasswordClick = {
 
             },
-            onLoginOptionClick = {
-                onSignInSuccess()
-            }
+            onLoginOptionClick = viewModel::onSubmit
         )
     )
 }

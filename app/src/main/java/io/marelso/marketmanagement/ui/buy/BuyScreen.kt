@@ -18,7 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.marelso.market_management.domain.dto.Product
+import io.marelso.marketmanagement.data.Product
 import io.marelso.marketmanagement.ui.components.AppSearchBar
 import io.marelso.marketmanagement.ui.components.AppTopBar
 import io.marelso.marketmanagement.ui.components.SalesBottomBar

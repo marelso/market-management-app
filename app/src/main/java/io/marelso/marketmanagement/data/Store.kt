@@ -1,4 +1,4 @@
-package io.marelso.market_management.domain
+package io.marelso.marketmanagement.data
 
 data class Store(
     val id: String,

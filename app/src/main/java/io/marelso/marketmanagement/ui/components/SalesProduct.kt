@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.marelso.market_management.domain.dto.Product
+import io.marelso.marketmanagement.data.Product
 import io.marelso.marketmanagement.ui.theme.Brand
 
 @Composable

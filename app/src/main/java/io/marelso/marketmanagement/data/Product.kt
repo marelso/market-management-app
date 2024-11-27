@@ -1,4 +1,4 @@
-package io.marelso.market_management.domain.dto
+package io.marelso.marketmanagement.data
 
 data class Product(
     val id: String,

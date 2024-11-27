@@ -2,7 +2,6 @@ package io.marelso.marketmanagement.ui.stores
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.marelso.market_management.domain.Store
+import io.marelso.marketmanagement.data.Store
 import io.marelso.marketmanagement.ui.components.StoreCard
 
 @Composable

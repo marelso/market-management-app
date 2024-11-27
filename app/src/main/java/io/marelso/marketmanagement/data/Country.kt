@@ -1,4 +1,4 @@
-package io.marelso.market_management.domain
+package io.marelso.marketmanagement.data
 
 enum class Country(val language: String, val code: String, currency: String) {
     BRAZIL("pt", "BR", "BRL"),

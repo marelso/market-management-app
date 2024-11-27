@@ -8,8 +8,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class SignInViewModel(private val repository: AccountRepository): ViewModel() {
+class SignInViewModel(
+    private val repository: AccountRepository,
+    val onLoginSuccess: () -> Unit
+): ViewModel() {
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
@@ -26,4 +30,13 @@ class SignInViewModel(private val repository: AccountRepository): ViewModel() {
 
     fun onEmailChange(value: String) = _email.tryEmit(value)
     fun onPasswordChange(value: String) = _password.tryEmit(value)
+    fun onSubmit() = viewModelScope.launch {
+        val result = repository.authenticate(_email.value, _password.value)
+
+        if(result.isSuccessful) {
+            onLoginSuccess()
+        } else {
+
+        }
+    }
 }
