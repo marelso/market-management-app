@@ -2,6 +2,7 @@ package io.marelso.marketmanagement.ui.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.marelso.marketmanagement.data.Session
 import io.marelso.marketmanagement.data.network.account.AccountRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,6 +35,8 @@ class SignInViewModel(
         val result = repository.authenticate(_email.value, _password.value)
 
         if(result.isSuccessful) {
+            Session.account = result.body()
+
             onLoginSuccess()
         } else {
 
