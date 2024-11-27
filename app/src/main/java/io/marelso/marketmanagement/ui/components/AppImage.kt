@@ -55,13 +55,13 @@ private fun AppImage(modifier: Modifier = Modifier, painter: AsyncImagePainter, 
         )
 
         is AsyncImagePainter.State.Success -> Image(
-            modifier = modifier,
+            modifier = modifier.fillMaxSize(),
             painter = painter,
             contentDescription = ""
         )
 
         else -> Image(
-            modifier = modifier,
+            modifier = modifier.fillMaxSize(),
             imageVector = icon,
             contentDescription = "",
             contentScale = ContentScale.Crop
