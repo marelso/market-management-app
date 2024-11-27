@@ -53,6 +53,10 @@ dependencies {
     with(libs) {
         implementation(io.insert.koin)
         implementation(io.coil.kt)
+
+        implementation(com.squareup.retrofit)
+        implementation(com.squareup.gson)
+
         implementation(androidx.navigation.compose)
         implementation(androidx.material)
 
