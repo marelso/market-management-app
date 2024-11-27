@@ -23,9 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,34 +42,32 @@ fun SignInScreenHoisting(
 ) {
     val email by viewModel.email.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
+    val canSubmit by viewModel.canSubmit.collectAsStateWithLifecycle()
 
     SignInScreen(
-        email = email,
-        password = password,
-        onEmailChange = viewModel::onEmailChange,
-        onPasswordChange = viewModel::onPasswordChange,
-        onSignInClick = {
-            onSignInSuccess()
-        },
-        onForgotPasswordClick = {
+        holder = SignInParameterHolder(
+            email = email,
+            password = password,
+            canSubmit = canSubmit,
+            onEmailChange = viewModel::onEmailChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onSignInClick = {
+                onSignInSuccess()
+            },
+            onForgotPasswordClick = {
 
-        },
-        onLoginOptionClick = {
-            onSignInSuccess()
-        }
+            },
+            onLoginOptionClick = {
+                onSignInSuccess()
+            }
+        )
     )
 }
 
 @Composable
 private fun SignInScreen(
     modifier: Modifier = Modifier,
-    email: String,
-    password: String,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onSignInClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit,
-    onLoginOptionClick: () -> Unit
+    holder: SignInParameterHolder
 ) {
     Scaffold {
         Box(
@@ -95,8 +90,8 @@ private fun SignInScreen(
 
                 OutlinedTextField(
                     modifier = modifier.fillMaxWidth(),
-                    value = email,
-                    onValueChange = onEmailChange,
+                    value = holder.email,
+                    onValueChange = holder.onEmailChange,
                     label = { Text("Email") },
                     placeholder = { Text("Insira seu email") },
                     singleLine = true
@@ -104,8 +99,8 @@ private fun SignInScreen(
 
                 OutlinedTextField(
                     modifier = modifier.fillMaxWidth(),
-                    value = password,
-                    onValueChange = onPasswordChange,
+                    value = holder.password,
+                    onValueChange = holder.onPasswordChange,
                     label = { Text("Senha") },
                     placeholder = { Text("Insira sua senha") },
                     singleLine = true
@@ -114,7 +109,7 @@ private fun SignInScreen(
                 Text(
                     modifier = modifier
                         .fillMaxWidth()
-                        .clickable { onForgotPasswordClick() },
+                        .clickable { holder.onForgotPasswordClick() },
                     text = "Esqueceu a senha?",
                     textAlign = TextAlign.End,
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -128,7 +123,8 @@ private fun SignInScreen(
                         .padding(vertical = 20.dp)
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),
-                    onClick = onSignInClick
+                    enabled = holder.canSubmit,
+                    onClick = holder.onSignInClick
                 ) {
                     Text(
                         text = "Entrar",
@@ -172,7 +168,7 @@ private fun SignInScreen(
                                 shape = RoundedCornerShape(4.dp)
                             )
                             .width(80.dp),
-                        onClick = onLoginOptionClick
+                        onClick = holder.onLoginOptionClick
                     ) {
                         Icon(
                             modifier = modifier.size(32.dp),
