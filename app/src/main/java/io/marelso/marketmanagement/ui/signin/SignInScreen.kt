@@ -35,20 +35,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.marelso.marketmanagement.R
 
 @Composable
 fun SignInScreenHoisting(
+    viewModel: SignInViewModel,
     onSignInSuccess: () -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val email by viewModel.email.collectAsStateWithLifecycle()
+    val password by viewModel.password.collectAsStateWithLifecycle()
 
     SignInScreen(
         email = email,
         password = password,
-        onEmailChange = { email = it },
-        onPasswordChange = { password = it },
+        onEmailChange = viewModel::onEmailChange,
+        onPasswordChange = viewModel::onPasswordChange,
         onSignInClick = {
             onSignInSuccess()
         },
@@ -74,7 +76,9 @@ private fun SignInScreen(
 ) {
     Scaffold {
         Box(
-            modifier = modifier.padding(it).fillMaxSize(),
+            modifier = modifier
+                .padding(it)
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -108,7 +112,9 @@ private fun SignInScreen(
                 )
 
                 Text(
-                    modifier = modifier.fillMaxWidth().clickable { onForgotPasswordClick() },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .clickable { onForgotPasswordClick() },
                     text = "Esqueceu a senha?",
                     textAlign = TextAlign.End,
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -135,7 +141,9 @@ private fun SignInScreen(
 
 
                 Box(
-                    modifier = modifier.fillMaxWidth().padding(bottom = 12.dp),
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Divider()

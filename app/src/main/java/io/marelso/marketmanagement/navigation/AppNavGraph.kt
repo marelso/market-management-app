@@ -14,6 +14,7 @@ import io.marelso.marketmanagement.ui.sell.SellScreenHoisting
 import io.marelso.marketmanagement.ui.signin.SignInScreenHoisting
 import io.marelso.marketmanagement.ui.store.StoreWorkSpaceHoisting
 import io.marelso.marketmanagement.ui.stores.StoresScreenHoisting
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
@@ -28,6 +29,7 @@ fun AppNavigationGraph(navHostController: NavHostController = rememberNavControl
 
         composable(route = Routes.SignIn.route) {
             SignInScreenHoisting(
+                viewModel = koinViewModel(),
                 onSignInSuccess = {
                     navHostController.navigate(Routes.SignIn.navigate(Routes.Stores))
                 }
