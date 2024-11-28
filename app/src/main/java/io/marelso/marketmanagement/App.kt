@@ -1,6 +1,7 @@
 package io.marelso.marketmanagement
 
 import android.app.Application
+import io.marelso.marketmanagement.data.di.dataModule
 import io.marelso.marketmanagement.data.network.di.networkModule
 import io.marelso.marketmanagement.ui.signin.di.signInModule
 import org.koin.android.ext.koin.androidContext
@@ -13,6 +14,7 @@ class App: Application() {
         GlobalContext.startKoin {
             androidContext(this@App)
             modules(
+                dataModule,
                 networkModule,
                 signInModule,
             )

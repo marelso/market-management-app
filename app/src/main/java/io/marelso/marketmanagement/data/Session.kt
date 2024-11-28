@@ -1,6 +1,6 @@
 package io.marelso.marketmanagement.data
 
 object Session {
-    var account: Account? = null
+    lateinit var account: Account
     var store: Store? = null
 }

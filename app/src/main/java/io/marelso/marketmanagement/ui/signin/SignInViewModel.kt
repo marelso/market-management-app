@@ -35,11 +35,10 @@ class SignInViewModel(
         val result = repository.authenticate(_email.value, _password.value)
 
         if(result.isSuccessful) {
-            Session.account = result.body()
-
-            onLoginSuccess()
-        } else {
-
+            result.body()?.let {
+                Session.account = it
+                onLoginSuccess()
+            }
         }
     }
 }
