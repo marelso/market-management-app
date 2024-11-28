@@ -10,15 +10,22 @@ import kotlinx.coroutines.launch
 
 class StoresViewModel(private val repository: StoreRepository): ViewModel() {
     private val _stores = MutableStateFlow<List<Store>>(listOf())
-    val store: StateFlow<List<Store>> = _stores
+    val stores: StateFlow<List<Store>> = _stores
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     init {
         viewModelScope.launch {
+            _isLoading.emit(true)
+
             val result = repository.getUserStores()
 
             if(result.isSuccessful) {
                 _stores.tryEmit(result.body() ?: listOf())
             }
+
+            _isLoading.emit(false)
         }
     }
 }

@@ -2,6 +2,7 @@ package io.marelso.marketmanagement.ui.stores
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +11,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.marelso.marketmanagement.data.Store
 import io.marelso.marketmanagement.ui.components.StoreCard
 
@@ -28,13 +33,9 @@ fun StoresScreenHoisting(
     viewModel: StoresViewModel,
     onStoreClick: (Store) -> Unit
 ) {
-    val stores = List(1000) {
-        Store(
-            id = it.toString(),
-            name = "#$it store"
-        )
-    }
-    StoresScreen(stores = stores) {
+    val stores by viewModel.stores.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    StoresScreen(stores = stores, isLoading = isLoading) {
         onStoreClick(it)
     }
 }
@@ -44,6 +45,7 @@ fun StoresScreenHoisting(
 private fun StoresScreen(
     modifier: Modifier = Modifier,
     stores: List<Store>,
+    isLoading: Boolean,
     onStoreClick: (Store) -> Unit
 ) {
     Scaffold(
@@ -74,13 +76,19 @@ private fun StoresScreen(
                 )
             )
 
-            LazyColumn(
-                contentPadding = PaddingValues(top = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(stores) {
-                    StoreCard(store = it) {
-                        onStoreClick(it)
+            if(isLoading) {
+                Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else if(stores.isNotEmpty()) {
+                LazyColumn(
+                    contentPadding = PaddingValues(top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(stores) {
+                        StoreCard(store = it) {
+                            onStoreClick(it)
+                        }
                     }
                 }
             }

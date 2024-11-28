@@ -13,6 +13,7 @@ import io.marelso.marketmanagement.ui.onboarding.OnBoardingScreenHoisting
 import io.marelso.marketmanagement.ui.sell.SellScreenHoisting
 import io.marelso.marketmanagement.ui.signin.SignInScreenHoisting
 import io.marelso.marketmanagement.ui.signin.SignInViewModel
+import io.marelso.marketmanagement.ui.signup.SignUpScreenHoisting
 import io.marelso.marketmanagement.ui.store.StoreWorkSpaceHoisting
 import io.marelso.marketmanagement.ui.stores.StoresScreenHoisting
 import org.koin.androidx.compose.koinViewModel
@@ -38,7 +39,11 @@ fun AppNavigationGraph(navHostController: NavHostController = rememberNavControl
         }
 
         composable(route = Routes.SignUp.route) {
-
+            SignUpScreenHoisting(
+                viewModel = koinViewModel(parameters = {
+                    parametersOf({ navHostController.navigate(Routes.SignIn.navigate(Routes.SignIn)) })
+                })
+            )
         }
 
         composable(route = Routes.Stores.route) {
