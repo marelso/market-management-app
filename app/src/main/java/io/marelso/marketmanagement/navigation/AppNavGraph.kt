@@ -33,7 +33,13 @@ fun AppNavigationGraph(navHostController: NavHostController = rememberNavControl
         composable(route = Routes.SignIn.route) {
             SignInScreenHoisting(
                 viewModel = koinViewModel<SignInViewModel>(parameters = {
-                    parametersOf({ navHostController.navigate(Routes.SignIn.navigate(Routes.Stores)) })
+                    parametersOf({
+                        navHostController.navigate(Routes.SignIn.navigate(Routes.Stores)) {
+                            popUpTo(route = Routes.OnBoarding.route) {
+                                inclusive = false
+                            }
+                        }
+                    })
                 })
             )
         }
@@ -41,17 +47,28 @@ fun AppNavigationGraph(navHostController: NavHostController = rememberNavControl
         composable(route = Routes.SignUp.route) {
             SignUpScreenHoisting(
                 viewModel = koinViewModel(parameters = {
-                    parametersOf({ navHostController.navigate(Routes.SignIn.navigate(Routes.SignIn)) })
+                    parametersOf({
+                        navHostController.navigate(Routes.SignIn.navigate(Routes.SignIn)) {
+                            popUpTo(route = Routes.OnBoarding.route) {
+                                inclusive = false
+                            }
+                        }
+                    })
                 })
             )
         }
 
         composable(route = Routes.Stores.route) {
             StoresScreenHoisting(viewModel = koinViewModel()) {
-                navHostController.navigate(Routes.Stores.navigate(Routes.Store,ARG_STORE_ID to it.id))
+                navHostController.navigate(
+                    Routes.Stores.navigate(
+                        Routes.Store,
+                        ARG_STORE_ID to it.id
+                    )
+                )
             }
         }
-        
+
         composable(
             route = Routes.Store.route,
             arguments = listOf(navArgument(ARG_STORE_ID) { NavType.StringType })

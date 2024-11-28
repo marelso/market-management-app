@@ -15,7 +15,6 @@ class SignUpViewModel(
     private val repository: AccountRepository,
     val onSignUpSuccess: () -> Unit
 ) : ViewModel() {
-
     private val _name = MutableStateFlow("")
     val name: StateFlow<String> = _name
 
