@@ -24,7 +24,10 @@ import io.marelso.marketmanagement.data.Store
 import io.marelso.marketmanagement.ui.components.StoreCard
 
 @Composable
-fun StoresScreenHoisting(onStoreClick: (Store) -> Unit) {
+fun StoresScreenHoisting(
+    viewModel: StoresViewModel,
+    onStoreClick: (Store) -> Unit
+) {
     val stores = List(1000) {
         Store(
             id = it.toString(),
