@@ -8,13 +8,15 @@ import java.io.IOException
 
 class ProductPagingSource (
     private val service: ProductService,
-    private val storeId: String
+    private val storeId: String,
+    private val query: String
 ) : PagingSource<Int, Product>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         val page = params.key ?: 0
 
         val result = service.getProductsByStoreId(
             storeId = storeId,
+            query = query,
             page = page,
             size = Constant.PAGE_SIZE
         )

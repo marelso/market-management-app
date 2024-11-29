@@ -7,9 +7,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ProductService {
-    @GET
-    fun getProductsByStoreId(
+    @GET("/api/v1/products")
+    suspend fun getProductsByStoreId(
         @Query("storeId") storeId: String,
+        @Query("query") query: String,
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Response<Page<Product>>

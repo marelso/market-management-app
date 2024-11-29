@@ -1,7 +1,6 @@
 package io.marelso.marketmanagement.data.network.product.di
 
 import io.marelso.marketmanagement.data.Constant
-import io.marelso.marketmanagement.data.network.product.ProductPagingSource
 import io.marelso.marketmanagement.data.network.product.ProductRemoteDataSource
 import io.marelso.marketmanagement.data.network.product.ProductRepository
 import io.marelso.marketmanagement.data.network.product.ProductService
@@ -16,5 +15,4 @@ val productModule = module {
     }
     factoryOf(::ProductRemoteDataSource)
     factoryOf(::ProductRepository)
-    factoryOf(::ProductPagingSource)
 }
