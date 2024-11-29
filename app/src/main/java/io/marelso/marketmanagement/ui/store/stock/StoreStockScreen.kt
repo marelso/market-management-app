@@ -74,6 +74,7 @@ private fun StoreStockScreen(
             is LoadState.Error -> ActionScreen(
                 padding = padding,
                 icon = Icons.Default.Warning,
+                iconColor = Color.Red,
                 title = "There was an error loading your request",
                 description = "Reload this page and try again. If this error persists, contact support.",
                 onActionClick = { holder.products.retry() }

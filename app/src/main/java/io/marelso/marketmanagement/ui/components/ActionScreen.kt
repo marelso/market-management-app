@@ -27,6 +27,7 @@ fun ActionScreen(
     modifier: Modifier = Modifier,
     padding: PaddingValues,
     icon: ImageVector,
+    iconColor: Color = Color.Unspecified,
     title: String? = null,
     description: String,
     onActionClick: () -> Unit
@@ -49,7 +50,7 @@ fun ActionScreen(
             modifier = modifier.size(80.dp),
             imageVector = icon,
             contentDescription = "Icon",
-            tint = Color.Red
+            tint = iconColor
         )
 
         title?.let {
