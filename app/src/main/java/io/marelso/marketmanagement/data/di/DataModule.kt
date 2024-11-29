@@ -9,7 +9,9 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataModule = module {
+    factory<Account> { provideAccount() }
     factory<Account>(named(CURRENT_ACCOUNT)) { provideAccount() }
+    factory<Store> { provideStore() }
     factory<Store>(named(CURRENT_STORE)) { provideStore() }
 }
 
