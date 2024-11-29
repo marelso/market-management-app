@@ -60,7 +60,7 @@ dependencies {
         implementation(androidx.navigation.compose)
         implementation(androidx.material)
 
-        implementation(androidx.paging.common.android)
+        implementation(androidx.paging)
 
         implementation(com.himanshoe.charty)
 
