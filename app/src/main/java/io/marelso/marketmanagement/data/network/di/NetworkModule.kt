@@ -5,6 +5,7 @@ import io.marelso.marketmanagement.data.Account
 import io.marelso.marketmanagement.data.Constant
 import io.marelso.marketmanagement.data.Session
 import io.marelso.marketmanagement.data.network.account.di.accountModule
+import io.marelso.marketmanagement.data.network.product.di.productModule
 import io.marelso.marketmanagement.data.network.store.di.storeModule
 import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
@@ -43,5 +44,5 @@ val networkModule = module {
             ).build()
     }
 
-    includes(accountModule, storeModule)
+    includes(accountModule, storeModule, productModule)
 }
