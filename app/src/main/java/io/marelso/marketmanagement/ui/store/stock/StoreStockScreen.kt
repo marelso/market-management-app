@@ -1,6 +1,5 @@
 package io.marelso.marketmanagement.ui.store.stock
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,14 +8,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +38,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import io.marelso.marketmanagement.R
 import io.marelso.marketmanagement.data.Product
 import io.marelso.marketmanagement.ui.components.AppImage
-import io.marelso.marketmanagement.ui.components.AppSearchBar
+import io.marelso.marketmanagement.ui.components.AppSearchTopBar
+import io.marelso.marketmanagement.ui.components.shimmerLoadingAnimation
 
 @Composable
 fun StoreStockScreenHoisting(viewModel: StoreStockViewModel) {
@@ -62,33 +62,87 @@ private fun StoreStockScreen(
 ) {
     Scaffold(
         topBar = {
-            Column(modifier.background(MaterialTheme.colorScheme.background)) {
-                AppSearchBar(
-                    modifier = modifier.padding(12.dp),
-                    query = holder.query,
-                    placeholder = "Procure por nome",
-                    onSearch = holder.onQueryChange,
-                    onClearClicked = {
-                        holder.onQueryChange("")
-                    }
-                )
-                Divider()
-            }
+            AppSearchTopBar(
+                isLoading = holder.products.loadState.refresh is LoadState.Loading,
+                query = holder.query,
+                onQueryChange = holder.onQueryChange
+            )
         }
-    ){ padding ->
-        holder.products.loadState.apply {
-
-        }
-
-        when(holder.products.loadState.refresh) {
+    ) { padding ->
+        when (holder.products.loadState.refresh) {
             is LoadState.Error -> {
+                Box(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = padding.calculateTopPadding() + 24.dp,
+                            bottom = padding.calculateBottomPadding() + 24.dp,
+                            start = 24.dp,
+                            end = 24.dp
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            modifier = modifier.size(80.dp),
+                            imageVector = Icons.Default.Warning,
+                            contentDescription = "Icon",
+                            tint = Color.Red
+                        )
 
+                        Text(
+                            text = "Reload this page and try again. If this error persists, contact support.",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                textAlign = TextAlign.Center
+                            )
+                        )
+
+                        OutlinedButton(
+                            shape = RoundedCornerShape(4.dp),
+                            onClick = { holder.products.retry() }
+                        ) {
+                            Text(
+                                text = "Adicionar produto",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    }
+                }
             }
-            LoadState.Loading -> {
-                CircularProgressIndicator()
+
+            is LoadState.Loading -> {
+                Column(
+                    modifier = modifier.padding(
+                        PaddingValues(
+                            top = padding.calculateTopPadding() + 12.dp,
+                            bottom = padding.calculateBottomPadding() + 12.dp,
+                            start = 12.dp,
+                            end = 12.dp
+                        )
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    List(5) {
+                        Box(
+                            modifier = modifier
+                                .height(68        .dp)
+                                .fillMaxWidth()
+                                .border(
+                                    1.dp,
+                                    color = Color.Black.copy(.20f),
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .shimmerLoadingAnimation()
+                        )
+                    }
+                }
             }
+
             is LoadState.NotLoading -> {
-                if(holder.products.itemCount != 0) {
+                if (holder.products.itemCount != 0) {
                     LazyColumn(
                         contentPadding = PaddingValues(
                             top = padding.calculateTopPadding() + 12.dp,
@@ -98,13 +152,16 @@ private fun StoreStockScreen(
                         ),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(holder.products.itemCount, key = { holder.products[it]?.id.orEmpty() }) { index ->
+                        items(
+                            holder.products.itemCount,
+                            key = { holder.products[it]?.id.orEmpty() }) { index ->
                             holder.products[index]?.let { ProductStockCard(product = it) }
                         }
                     }
                 } else {
                     Box(
-                        modifier = modifier.fillMaxSize()
+                        modifier = modifier
+                            .fillMaxSize()
                             .padding(
                                 top = padding.calculateTopPadding() + 24.dp,
                                 bottom = padding.calculateBottomPadding() + 24.dp,
