@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.marelso.marketmanagement.ui.store.home.StoreHomeScreenHoisting
+import io.marelso.marketmanagement.ui.store.stock.StoreStockScreenHoisting
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StoreNavGraph(
@@ -15,7 +17,7 @@ fun StoreNavGraph(
     NavHost(navController = navHostController, startDestination = StoreRoutes.Home.route) {
         composable(route = StoreRoutes.Home.route) { StoreHomeScreenHoisting() }
 
-        composable(route = StoreRoutes.Stock.route) { Text(text = "Stock") }
+        composable(route = StoreRoutes.Stock.route) { StoreStockScreenHoisting(koinViewModel()) }
 
         composable(route = StoreRoutes.Entries.route) { Text(text = "Entries") }
 
