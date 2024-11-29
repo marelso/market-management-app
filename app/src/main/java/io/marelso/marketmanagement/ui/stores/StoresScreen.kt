@@ -30,13 +30,12 @@ import io.marelso.marketmanagement.ui.components.StoreCard
 
 @Composable
 fun StoresScreenHoisting(
-    viewModel: StoresViewModel,
-    onStoreClick: (Store) -> Unit
+    viewModel: StoresViewModel
 ) {
     val stores by viewModel.stores.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     StoresScreen(stores = stores, isLoading = isLoading) {
-        onStoreClick(it)
+        viewModel.onStoreClick(it)
     }
 }
 

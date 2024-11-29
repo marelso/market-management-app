@@ -59,14 +59,18 @@ fun AppNavigationGraph(navHostController: NavHostController = rememberNavControl
         }
 
         composable(route = Routes.Stores.route) {
-            StoresScreenHoisting(viewModel = koinViewModel()) {
-                navHostController.navigate(
-                    Routes.Stores.navigate(
-                        Routes.Store,
-                        ARG_STORE_ID to it.id
-                    )
-                )
-            }
+            StoresScreenHoisting(
+                viewModel = koinViewModel(parameters = {
+                    parametersOf({
+                        navHostController.navigate(
+                            Routes.Stores.navigate(
+                                Routes.Store,
+                                ARG_STORE_ID to it.id
+                            )
+                        )
+                    })
+                })
+            )
         }
 
         composable(

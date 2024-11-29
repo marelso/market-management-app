@@ -2,13 +2,17 @@ package io.marelso.marketmanagement.ui.stores
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.marelso.marketmanagement.data.Session
 import io.marelso.marketmanagement.data.Store
 import io.marelso.marketmanagement.data.network.store.StoreRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class StoresViewModel(private val repository: StoreRepository): ViewModel() {
+class StoresViewModel(
+    private val repository: StoreRepository,
+    private val onStoreSelected: () -> Unit
+): ViewModel() {
     private val _stores = MutableStateFlow<List<Store>>(listOf())
     val stores: StateFlow<List<Store>> = _stores
 
@@ -27,5 +31,11 @@ class StoresViewModel(private val repository: StoreRepository): ViewModel() {
 
             _isLoading.emit(false)
         }
+    }
+
+    fun onStoreClick(it: Store) {
+        Session.store = it
+
+        onStoreSelected()
     }
 }
