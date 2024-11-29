@@ -60,6 +60,8 @@ dependencies {
         implementation(androidx.navigation.compose)
         implementation(androidx.material)
 
+        implementation(androidx.paging.common.android)
+
         implementation(androidx.core.ktx)
         implementation(androidx.lifecycle.runtime.ktx)
         implementation(androidx.activity.compose)
