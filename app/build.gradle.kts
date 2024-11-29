@@ -62,6 +62,8 @@ dependencies {
 
         implementation(androidx.paging.common.android)
 
+        implementation(com.himanshoe.charty)
+
         implementation(androidx.core.ktx)
         implementation(androidx.lifecycle.runtime.ktx)
         implementation(androidx.activity.compose)

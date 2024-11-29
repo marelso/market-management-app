@@ -33,6 +33,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 com-squareup-retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
 com-squareup-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.9.0" }
 androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
+com-himanshoe-charty = { group = "com.himanshoe", name = "charty", version = "2.0.0-alpha01" }
 
 
 [plugins]
