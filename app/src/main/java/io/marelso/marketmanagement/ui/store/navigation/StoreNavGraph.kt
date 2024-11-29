@@ -6,13 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.marelso.marketmanagement.ui.store.home.StoreHomeScreenHoisting
 
 @Composable
 fun StoreNavGraph(
     navHostController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = navHostController, startDestination = StoreRoutes.Home.route) {
-        composable(route = StoreRoutes.Home.route) { Text(text = "Home") }
+        composable(route = StoreRoutes.Home.route) { StoreHomeScreenHoisting() }
 
         composable(route = StoreRoutes.Stock.route) { Text(text = "Stock") }
 
