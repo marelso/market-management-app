@@ -37,6 +37,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.marelso.marketmanagement.R
 import io.marelso.marketmanagement.data.Product
+import io.marelso.marketmanagement.ui.components.ActionScreen
 import io.marelso.marketmanagement.ui.components.AppImage
 import io.marelso.marketmanagement.ui.components.AppSearchTopBar
 import io.marelso.marketmanagement.ui.components.shimmerLoadingAnimation
@@ -70,48 +71,13 @@ private fun StoreStockScreen(
         }
     ) { padding ->
         when (holder.products.loadState.refresh) {
-            is LoadState.Error -> {
-                Box(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = padding.calculateTopPadding() + 24.dp,
-                            bottom = padding.calculateBottomPadding() + 24.dp,
-                            start = 24.dp,
-                            end = 24.dp
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            modifier = modifier.size(80.dp),
-                            imageVector = Icons.Default.Warning,
-                            contentDescription = "Icon",
-                            tint = Color.Red
-                        )
-
-                        Text(
-                            text = "Reload this page and try again. If this error persists, contact support.",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                textAlign = TextAlign.Center
-                            )
-                        )
-
-                        OutlinedButton(
-                            shape = RoundedCornerShape(4.dp),
-                            onClick = { holder.products.retry() }
-                        ) {
-                            Text(
-                                text = "Adicionar produto",
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
-                    }
-                }
-            }
+            is LoadState.Error -> ActionScreen(
+                padding = padding,
+                icon = Icons.Default.Warning,
+                title = "There was an error loading your request",
+                description = "Reload this page and try again. If this error persists, contact support.",
+                onActionClick = { holder.products.retry() }
+            )
 
             is LoadState.Loading -> {
                 Column(
@@ -128,7 +94,7 @@ private fun StoreStockScreen(
                     List(5) {
                         Box(
                             modifier = modifier
-                                .height(68        .dp)
+                                .height(68.dp)
                                 .fillMaxWidth()
                                 .border(
                                     1.dp,
@@ -159,46 +125,12 @@ private fun StoreStockScreen(
                         }
                     }
                 } else {
-                    Box(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .padding(
-                                top = padding.calculateTopPadding() + 24.dp,
-                                bottom = padding.calculateBottomPadding() + 24.dp,
-                                start = 24.dp,
-                                end = 24.dp
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                modifier = modifier.size(80.dp),
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_no_image),
-                                contentDescription = "Icon",
-                                tint = Color.Unspecified
-                            )
-
-                            Text(
-                                text = "Não há nenhum produto com esse nome. Utilize o botão abaixo para registrá-lo.",
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    textAlign = TextAlign.Center
-                                )
-                            )
-
-                            OutlinedButton(
-                                shape = RoundedCornerShape(4.dp),
-                                onClick = { /*TODO*/ }
-                            ) {
-                                Text(
-                                    text = "Adicionar produto",
-                                    style = MaterialTheme.typography.labelLarge
-                                )
-                            }
-                        }
-                    }
+                    ActionScreen(
+                        padding = padding,
+                        icon = ImageVector.vectorResource(R.drawable.ic_no_image),
+                        description = "Não há nenhum produto com esse nome. Utilize o botão abaixo para registrá-lo.",
+                        onActionClick = {  }
+                    )
                 }
             }
         }
