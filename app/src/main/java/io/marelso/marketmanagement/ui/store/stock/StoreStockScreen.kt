@@ -1,5 +1,6 @@
 package io.marelso.marketmanagement.ui.store.stock
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,14 +9,27 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -26,6 +40,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import io.marelso.marketmanagement.R
 import io.marelso.marketmanagement.ui.components.ActionScreen
 import io.marelso.marketmanagement.ui.components.AppSearchTopBar
+import io.marelso.marketmanagement.ui.components.CreateProductSheet
 import io.marelso.marketmanagement.ui.components.ProductStockCard
 import io.marelso.marketmanagement.ui.components.shimmerLoadingAnimation
 
@@ -33,12 +48,22 @@ import io.marelso.marketmanagement.ui.components.shimmerLoadingAnimation
 fun StoreStockScreenHoisting(viewModel: StoreStockViewModel) {
     val products = viewModel.products.collectAsLazyPagingItems()
     val query by viewModel.query.collectAsStateWithLifecycle()
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val price by viewModel.price.collectAsStateWithLifecycle()
+    var isSheetVisible by remember { mutableStateOf(false) }
 
     StoreStockScreen(
         holder = StoreStockScreenHolder(
             products = products,
+            isSheetVisible = isSheetVisible,
+            name = name,
+            price = price,
             query = query,
-            onQueryChange = viewModel::onQueryChanged
+            onQueryChange = viewModel::onQueryChanged,
+            onPriceChange = viewModel::onPriceChanged,
+            onNameChange = viewModel::onNameChanged,
+            onSubmit = viewModel::onSubmit,
+            onSheetVisibilityChange = { isSheetVisible = it }
         )
     )
 }
@@ -57,6 +82,18 @@ private fun StoreStockScreen(
             )
         }
     ) { padding ->
+        if (holder.isSheetVisible) {
+            CreateProductSheet(
+                padding = padding,
+                name = holder.name,
+                price = holder.price,
+                onNameChange = holder.onNameChange,
+                onPriceChange = holder.onPriceChange,
+                onSheetVisibilityChange = holder.onSheetVisibilityChange,
+                onSubmit = holder.onSubmit
+            )
+        }
+
         when (holder.products.loadState.refresh) {
             is LoadState.Error -> ActionScreen(
                 padding = padding,
@@ -117,7 +154,7 @@ private fun StoreStockScreen(
                         padding = padding,
                         icon = ImageVector.vectorResource(R.drawable.ic_no_image),
                         description = "Não há nenhum produto com esse nome. Utilize o botão abaixo para registrá-lo.",
-                        onActionClick = {  }
+                        onActionClick = { holder.onSheetVisibilityChange(true) }
                     )
                 }
             }

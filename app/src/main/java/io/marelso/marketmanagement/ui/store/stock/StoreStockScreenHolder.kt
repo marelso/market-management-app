@@ -5,6 +5,13 @@ import io.marelso.marketmanagement.data.Product
 
 data class StoreStockScreenHolder(
     val products: LazyPagingItems<Product>,
+    val isSheetVisible: Boolean,
     val query: String,
-    val onQueryChange: (String) -> Unit
+    val name: String,
+    val price: Double,
+    val onQueryChange: (String) -> Unit,
+    val onNameChange: (String) -> Unit,
+    val onPriceChange: (String) -> Unit,
+    val onSheetVisibilityChange: (Boolean) -> Unit,
+    val onSubmit: () -> Unit
 )
