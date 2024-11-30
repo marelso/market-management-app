@@ -1,6 +1,7 @@
 package io.marelso.marketmanagement.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,13 +23,18 @@ import androidx.compose.ui.unit.dp
 import io.marelso.marketmanagement.data.Product
 
 @Composable
-fun ProductStockCard(modifier: Modifier = Modifier, product: Product) = Box(
+fun ProductStockCard(
+    modifier: Modifier = Modifier,
+    product: Product,
+    onProductClick: () -> Unit
+) = Box(
     modifier = modifier
         .border(
             1.dp,
             color = Color.Black.copy(.20f),
             shape = RoundedCornerShape(4.dp)
         )
+        .clickable { onProductClick() }
         .padding(12.dp)
 ) {
     Row(
@@ -51,7 +57,7 @@ fun ProductStockCard(modifier: Modifier = Modifier, product: Product) = Box(
                 text = "${product.count} unidades"
             )
         }
-        IconButton(onClick = {}) {
+        IconButton(onClick = onProductClick) {
             Icon(
                 Icons.Default.ArrowForward,
                 ""
