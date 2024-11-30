@@ -9,6 +9,7 @@ data class StoreStockScreenHolder(
     val query: String,
     val name: String,
     val price: Double,
+    val onProductClick: (String) -> Unit,
     val onQueryChange: (String) -> Unit,
     val onNameChange: (String) -> Unit,
     val onPriceChange: (String) -> Unit,

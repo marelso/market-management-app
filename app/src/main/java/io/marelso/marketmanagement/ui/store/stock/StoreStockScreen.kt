@@ -46,7 +46,10 @@ import io.marelso.marketmanagement.ui.components.ProductStockCard
 import io.marelso.marketmanagement.ui.components.shimmerLoadingAnimation
 
 @Composable
-fun StoreStockScreenHoisting(viewModel: StoreStockViewModel) {
+fun StoreStockScreenHoisting(
+    viewModel: StoreStockViewModel,
+    goToProduct: (String) -> Unit
+) {
     val products = viewModel.products.collectAsLazyPagingItems()
     val query by viewModel.query.collectAsStateWithLifecycle()
     val name by viewModel.name.collectAsStateWithLifecycle()
@@ -62,6 +65,7 @@ fun StoreStockScreenHoisting(viewModel: StoreStockViewModel) {
             price = price,
             query = query,
             onQueryChange = viewModel::onQueryChanged,
+            onProductClick = goToProduct,
             onPriceChange = viewModel::onPriceChanged,
             onNameChange = viewModel::onNameChanged,
             onSubmit = viewModel::onSubmit,
@@ -155,7 +159,11 @@ private fun StoreStockScreen(
                         items(
                             holder.products.itemCount,
                             key = { holder.products[it]?.id.orEmpty() }) { index ->
-                            holder.products[index]?.let { ProductStockCard(product = it) }
+                            holder.products[index]?.let {
+                                ProductStockCard(product = it) {
+                                    holder.onProductClick(it.id)
+                                }
+                            }
                         }
                     }
                 } else {
