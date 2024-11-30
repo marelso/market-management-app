@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProductService {
@@ -17,6 +18,9 @@ interface ProductService {
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Response<Page<Product>>
+
+    @GET("/api/v1/products/{id}")
+    suspend fun getProductsById(@Path("id") id: String, ): Response<Product>
 
     @POST("/api/v1/products")
     suspend fun createProduct(

@@ -10,6 +10,8 @@ class ProductRepository(
     private val service: ProductService,
     private val store: Store,
 ) {
+    suspend fun getProductById(id: String) = service.getProductsById(id)
+
     fun getStoreProducts(query: String) = Pager(
         pagingSourceFactory = {
             ProductPagingSource(
