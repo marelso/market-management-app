@@ -74,7 +74,10 @@ fun CreateProductSheet(
         Button(
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(4.dp),
-            onClick = onSubmit
+            onClick = {
+                onSubmit()
+                onSheetVisibilityChange(false)
+            }
         ) {
             Text(text = "Cadastrar", style = MaterialTheme.typography.labelLarge)
         }

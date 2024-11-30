@@ -3,6 +3,7 @@ package io.marelso.marketmanagement.ui.store.stock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import io.marelso.marketmanagement.data.CreateProductDto
 import io.marelso.marketmanagement.data.network.product.ProductRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -13,6 +14,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 class StoreStockViewModel(private val repository: ProductRepository): ViewModel() {
+    private val _uiState = MutableStateFlow<StoreStockState>(StoreStockState.IDLE)
+    val uiState: StateFlow<StoreStockState> = _uiState
+
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
 
@@ -31,6 +35,23 @@ class StoreStockViewModel(private val repository: ProductRepository): ViewModel(
     fun onNameChanged(value: String) = _name.tryEmit(value)
     fun onPriceChanged(value: String) = _price.tryEmit(value.toDouble())
     fun onSubmit() = viewModelScope.launch {
-        repository.
+        val result = repository.create(CreateProductDto(
+            name = _name.value,
+            price = _price.value
+        ))
+
+        if(result.isSuccessful) {
+            _uiState.emit(StoreStockState.CREATED)
+        } else {
+            _uiState.emit(StoreStockState.ERROR)
+        }
     }
+
+    fun resetUiState() = _uiState.tryEmit(StoreStockState.IDLE)
+}
+
+sealed class StoreStockState {
+    data object IDLE: StoreStockState()
+    data object CREATED: StoreStockState()
+    data object ERROR: StoreStockState()
 }
