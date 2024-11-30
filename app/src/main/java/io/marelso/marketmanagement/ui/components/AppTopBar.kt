@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 
 data class TopBarAction(
-    val icon: Int,
+    val icon: ImageVector,
     val isActive: Boolean,
     val onActionClick: () -> Unit
 )
@@ -43,7 +43,7 @@ fun AppTopBar(
         actions.forEach {
             IconButton(onClick = it.onActionClick) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(it.icon),
+                    imageVector = it.icon,
                     contentDescription = ""
                 )
             }
